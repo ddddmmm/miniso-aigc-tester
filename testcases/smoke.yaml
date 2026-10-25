@@ -1,0 +1,233 @@
+# 冒烟测试套件（smoke suite）
+# 用法：aigc run --suite testcases/smoke.yaml
+# 说明：
+#   - 每条用例是一次完整的生成实验；
+#   - rounds 记录多轮调参过程，runner 会逐轮执行；
+#   - enabled: false 的用例会被跳过（视频用例 Day6 启用）。
+
+- id: TC-IMG-001
+  scene: 商品图
+  title: 超声波香薰机-北欧卧室场景图
+  enabled: true
+  provider: mock
+  template: templates/01-商品图/场景图.md
+  prompt: 名创优品超声波香薰机，白色磨砂球形机身，顶部出雾口，放在北欧风原木床头柜上，旁边有绿植、翻开的书和眼镜，清晨柔光透过白纱帘，水雾缓缓升起
+  references:
+    - references/aroma-diffuser.png
+  params:
+    model: gpt-image-1
+    size: 1536x1024
+    quality: high
+  checkpoints:
+    - 香薰机外形与参考图一致
+    - 商品完整未被裁切
+    - logo 位置正确，无乱码文字
+    - 场景氛围温暖自然
+  rounds:
+    - note: 第1轮使用正方形构图，香薰机底部被裁切
+      params:
+        size: 1024x1024
+    - note: 第2轮改为横版，提示词补充“保持商品完整”，问题解决
+      params:
+        size: 1536x1024
+
+- id: TC-IMG-002
+  scene: 商品图
+  title: 简约保温杯-白底电商主图
+  enabled: true
+  provider: ark
+  template: templates/01-商品图/白底图.md
+  prompt: 名创优品 500ml 简约保温杯，哑光白色不锈钢杯身，正面展示，纯白色背景（#FFFFFF），商品居中占画面约 75%，影棚布光，底部极淡投影，高清写实
+  references:
+    - references/thermos-white.png
+  params:
+    model: doubao-seedream-5-0-flash-260915
+    size: 1024x1024
+    quality: high
+  checkpoints:
+    - 保温杯与参考图外形、颜色一致
+    - 纯白背景无杂物
+    - 杯身无文字水印
+  rounds:
+    - note: 第1轮一次生成，符合预期
+      params:
+        size: 1024x1024
+
+- id: TC-IMG-003
+  scene: 商品图
+  title: 圣诞限定毛绒小熊-节日促销图
+  enabled: true
+  provider: ark
+  template: templates/01-商品图/节日促销图.md
+  prompt: 圣诞节主题，名创优品圣诞限定毛绒小熊，戴红色圣诞帽、围格纹围巾，画面中心，周围有圣诞树、金色铃铛、礼物盒和松枝，暖黄彩灯光斑，顶部留白用于文案，红金墨绿配色
+  references:
+    - references/xmas-bear.png
+  params:
+    model: doubao-seedream-5-0-flash-260915
+    size: 1536x1024
+    quality: high
+  checkpoints:
+    - 小熊造型与参考图一致
+    - 节日元素不遮挡商品
+    - 顶部留白区域完整
+    - 无乱码文字
+  rounds:
+    - note: 第1轮一次生成，节日氛围符合预期
+      params:
+        size: 1536x1024
+
+- id: TC-IMG-004
+  scene: 商品图
+  title: 异常用例-空提示词（验证报错记录）
+  enabled: true
+  provider: mock
+  template: templates/01-商品图/场景图.md
+  prompt: ""
+  references: []
+  params:
+    model: gpt-image-1
+    size: 1536x1024
+    quality: high
+  checkpoints:
+    - 程序应捕获“提示词为空”错误
+    - 日志记录完整报错信息
+    - 不影响其他用例继续执行
+  rounds:
+    - note: 第1轮预期失败，用于验证异常处理
+      params:
+        size: 1536x1024
+
+- id: TC-IP-001
+  scene: IP创意图
+  title: DUNDUN 墩墩鸡-春游野餐海报
+  enabled: true
+  provider: mock
+  template: templates/02-IP创意图/IP角色海报.md
+  prompt: DUNDUN 墩墩鸡，圆滚滚黄色小鸡，橙色小嘴和小短腿，头顶呆毛，黑豆眼；春天公园野餐，坐在格纹野餐垫上举着三明治，旁边有花篮、果汁和马卡龙，表情开心，午后暖阳，嫩绿鹅黄配色
+  references:
+    - references/dundun-reference.png
+  params:
+    model: gpt-image-1
+    size: 1024x1536
+    quality: high
+  checkpoints:
+    - 墩墩鸡体型、五官、配色与官方设定一致
+    - 呆毛和橙色小嘴未丢失
+    - 场景与角色融合自然
+  rounds:
+    - note: 第1轮头顶呆毛丢失，角色特征不完整
+      params:
+        size: 1024x1536
+    - note: 第2轮提示词强调“头顶一小撮呆毛”，特征恢复
+      params:
+        size: 1024x1536
+
+- id: TC-IP-002
+  scene: IP创意图
+  title: 吉伊卡哇-联名保温杯场景
+  enabled: true
+  provider: ark
+  template: templates/02-IP创意图/IP联名场景.md
+  prompt: 吉伊（Chiikawa），白色圆滚滚小仓鼠外形，粉色腮红，小耳朵；双手抱着比它还高的奶白色保温杯，杯身印着吉伊卡通图案；名创优品主题货架背景，暖色灯带，粉色奶白配色
+  references:
+    - references/chiikawa-reference.png
+    - references/thermos-white.png
+  params:
+    model: doubao-seedream-5-0-flash-260915
+    size: 1024x1536
+    quality: high
+  checkpoints:
+    - 吉伊外形与官方设定一致
+    - 保温杯与参考图一致
+    - 角色与商品比例自然
+  rounds:
+    - note: 第1轮一次生成，联名融合符合预期
+      params:
+        size: 1024x1536
+
+- id: TC-IP-003
+  scene: IP创意图
+  title: PenPen-九宫格表情包
+  enabled: true
+  provider: mock
+  template: templates/02-IP创意图/IP表情包.md
+  prompt: PenPen 企鹅，黑白配色圆胖小企鹅，橙色小嘴，头顶蓝毛；九宫格表情包，淡黄背景，每格一个表情：开心、生气、委屈、比心、加班、犯困、点赞、震惊、躺平，表情夸张，可配简短中文文字
+  references:
+    - references/penpen-reference.png
+  params:
+    model: gpt-image-1
+    size: 1024x1024
+    quality: high
+  checkpoints:
+    - 每格 PenPen 特征一致
+    - 九种表情清晰可辨
+    - 角色无多余肢体
+  rounds:
+    - note: 第1轮一次生成，表情包符合预期
+      params:
+        size: 1024x1024
+
+- id: TC-ERR-001
+  scene: 异常用例
+  title: 非法尺寸-模型不支持的参数（验证参数校验）
+  enabled: true
+  provider: mock
+  template: templates/01-商品图/白底图.md
+  prompt: 名创优品保温杯，纯白背景，商品居中，高清写实
+  references: []
+  params:
+    model: gpt-image-1
+    size: 2048x2048
+    quality: high
+  checkpoints:
+    - 程序应在校验阶段拦截非法尺寸
+    - 日志记录不支持的尺寸信息
+    - 不实际调用生成接口
+  rounds:
+    - note: 第1轮预期失败，用于验证参数校验逻辑
+      params:
+        size: 2048x2048
+
+- id: TC-VID-001
+  scene: 视频
+  title: 盲盒开箱短视频（Day6 启用）
+  enabled: true
+  provider: mock
+  template: templates/03-视频分镜/开箱视频分镜.md
+  prompt: 盲盒开箱短视频，8 个镜头：展示包裹、拆快递、展示包装盒、打开盒子、取出玩偶、惊喜展示、细节特写、摆回收纳架，轻松治愈
+  references:
+    - references/blindbox-reference.png
+  params:
+    model: seedance
+    size: "9:16"
+    duration: 40
+  checkpoints:
+    - 视频动作自然流畅
+    - 盲盒角色与参考图一致
+    - 镜头衔接无跳变
+  rounds:
+    - note: 第1轮待 Day6 执行
+      params:
+        size: "9:16"
+
+- id: TC-VID-002
+  scene: 视频
+  title: 香薰机场景种草短视频（Day6 启用）
+  enabled: true
+  provider: mock
+  template: templates/03-视频分镜/场景种草分镜.md
+  prompt: 香薰机种草短视频，8 个镜头：夜晚卧室全景、人物起身、香薰机出场、按键加水、水雾升起、看书放松、微笑闭眼、商品定格，治愈生活感
+  references:
+    - references/aroma-diffuser.png
+  params:
+    model: seedance
+    size: "9:16"
+    duration: 38
+  checkpoints:
+    - 香薰机与参考图一致
+    - 水雾方向自然
+    - 镜头衔接流畅
+  rounds:
+    - note: 第1轮待 Day6 执行
+      params:
+        size: "9:16"

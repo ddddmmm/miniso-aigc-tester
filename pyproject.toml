@@ -1,0 +1,29 @@
+[project]
+name = "miniso-aigc-tester"
+version = "1.0.0"
+description = "品牌营销AIGC素材（商品图/IP创意图/视频分镜/短视频）生成效果测试与验收工具"
+authors = [{name = "翁敏辉"}]
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "openai>=1.82.0,<2.0.0",
+    "typer>=0.16.0",
+    "pydantic>=2.11.5,<3.0.0",
+    "tomli-w>=1.2.0,<2.0.0",
+    "rich>=14.0.0,<15.0.0",
+    "pyyaml>=6.0",
+    "jinja2>=3.1",
+    "pillow>=10.0",
+    "streamlit>=1.40",
+    "pandas>=2.0"
+]
+
+[project.scripts]
+aigc = "aigc_tester:main"
+
+[tool.poetry]
+packages = [{include = "aigc_tester", from = "src"}]
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"

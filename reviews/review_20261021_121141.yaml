@@ -1,0 +1,106 @@
+run_id: '20261021_121141'
+pass_threshold: 3.5
+note: 打分说明：每项 1~5 分（5最好）；改完分数后 mean/pass 会在报告中自动重算。
+reviews:
+- case_id: TC-IMG-001
+  round: 1
+  scene: 商品图
+  image: outputs/TC-IMG-001_r1.png
+  scores:
+    subject: 4
+    composition: 2
+    style: 4
+    text_logo: 4
+  problems:
+  - 构图问题：商品底部被裁切，画面不完整
+  mean: 3.5
+  pass: true
+- case_id: TC-IMG-001
+  round: 2
+  scene: 商品图
+  image: outputs/TC-IMG-001_r2.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+  problems: []
+  mean: 5.0
+  pass: true
+- case_id: TC-IMG-002
+  round: 1
+  scene: 商品图
+  image: outputs/TC-IMG-002.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+  problems: []
+  mean: 5.0
+  pass: true
+- case_id: TC-IMG-003
+  round: 1
+  scene: 商品图
+  image: outputs/TC-IMG-003.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+  problems: []
+  mean: 5.0
+  pass: true
+- case_id: TC-IP-001
+  round: 1
+  scene: IP创意图
+  image: outputs/TC-IP-001_r1.png
+  scores:
+    subject: 4
+    composition: 4
+    style: 4
+    text_logo: 4
+    character_consistency: 2
+  problems:
+  - 角色特征丢失：头顶呆毛未生成，与官方设定不一致
+  mean: 3.6
+  pass: true
+- case_id: TC-IP-001
+  round: 2
+  scene: IP创意图
+  image: outputs/TC-IP-001_r2.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+    character_consistency: 5
+  problems: []
+  mean: 5.0
+  pass: true
+- case_id: TC-IP-002
+  round: 1
+  scene: IP创意图
+  image: outputs/TC-IP-002.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+    character_consistency: 5
+  problems: []
+  mean: 5.0
+  pass: true
+- case_id: TC-IP-003
+  round: 1
+  scene: IP创意图
+  image: outputs/TC-IP-003.png
+  scores:
+    subject: 5
+    composition: 5
+    style: 5
+    text_logo: 5
+    character_consistency: 5
+  problems: []
+  mean: 5.0
+  pass: true
